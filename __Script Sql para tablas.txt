@@ -1,0 +1,78 @@
+--Creo tabla Direccion (esta primero que no tiene FK con ninguna tabla)
+--**************************************************************************
+
+CREATE TABLE Direccion(
+DireccionId int NOT NULL IDENTITY, 
+Calle nvarchar(120) NOT NULL,
+CodigoPostal nvarchar(15) NOT NULL,
+Ciudad nvarchar(50) NOT NULL,
+Pais nvarchar(50) NOT NULL,
+Comentarios nvarchar(200),
+FechaCreacion datetime2 NOT NULL
+);
+
+ALTER TABLE Direccion
+ADD CONSTRAINT PK_Direccion PRIMARY KEY(DireccionId);
+
+
+
+
+
+
+
+--Creo tabla Persona (esta segunda ya que tiene FK con la tabla Direccion)
+--**************************************************************************
+
+CREATE TABLE Persona (
+PersonaId int NOT NULL IDENTITY,
+Nombre nvarchar(50) NOT NULL,
+Apellido nvarchar(50) NOT NULL,
+Dni nvarchar(20) NOT NULL,
+FechaCreacion datetime2 NOT NULL,
+DireccionId int NOT NULL
+);
+
+ALTER TABLE Persona
+ADD CONSTRAINT Pk_Persona PRIMARY KEY (PersonaId);
+
+ALTER TABLE Persona
+ADD CONSTRAINT FK_Persona_Direccion_DireccionID FOREIGN KEY (DireccionId)
+REFERENCES Direccion (DireccionId) ON DELETE CASCADE;
+
+
+
+--Insertar datos (En las 2 tablas) 
+--primero en en Direccion que no tiene FK a ninguna tablas y luego ya a Persona que tiene FK a la tabla Direccion:
+--**************************************************************************
+
+
+INSERT INTO Direccion (Calle, CodigoPostal, Ciudad, Pais, Comentarios, FechaCreacion)
+VALUES ('Calle 1', 'CP 1', 'CIUDAD 1', 'PAIS 1', 'COMENTARIO 1', '2020-06-01');
+
+INSERT INTO Direccion (Calle, CodigoPostal, Ciudad, Pais, Comentarios, FechaCreacion)
+VALUES ('Calle 2', 'CP 2', 'CIUDAD 2', 'PAIS 2', 'COMENTARIO 2', '2020-06-02');
+
+INSERT INTO Direccion (Calle, CodigoPostal, Ciudad, Pais, Comentarios, FechaCreacion)
+VALUES ('Calle 3', 'CP 3', 'CIUDAD 3', 'PAIS 3', 'COMENTARIO 3', '2020-06-03');
+
+INSERT INTO Direccion (Calle, CodigoPostal, Ciudad, Pais, Comentarios, FechaCreacion)
+VALUES ('Calle 4', 'CP 4', 'CIUDAD 4', 'PAIS 4', 'COMENTARIO 4', '2020-06-04');
+
+SELECT * FROM Direccion
+
+
+
+
+INSERT INTO Persona (Nombre,Apellido,Dni,FechaCreacion, DireccionId)
+VALUES ('NOMBRE 1', 'APELLIDO 1', 'DNI 1', '2020-06-01', 1);
+
+INSERT INTO Persona (Nombre,Apellido,Dni,FechaCreacion, DireccionId)
+VALUES ('NOMBRE 2', 'APELLIDO 2', 'DNI 2', '2020-06-02', 2);
+
+INSERT INTO Persona (Nombre,Apellido,Dni,FechaCreacion, DireccionId)
+VALUES ('NOMBRE 3', 'APELLIDO 3', 'DNI 3', '2020-06-03', 3);
+
+INSERT INTO Persona (Nombre,Apellido,Dni,FechaCreacion, DireccionId)
+VALUES ('NOMBRE 4', 'APELLIDO 4', 'DNI 4', '2020-06-04', 4);
+
+SELECT * FROM Persona
